@@ -23,10 +23,35 @@ pipeline {
       }
     }
 
+    stage('Build') { 
+            steps {
+                // 
+            }
+        }
+
+    stage('Run Karate Tests') {
+      steps {
+        sh 'mvn clean test'
+      }
+    }
+
+    stage('Publish Karate Report') {
+      steps {
+        publishHTML([
+          allowMissing: false,
+          alwaysLinkToLastBuild: true,
+          keepAll: true,
+          reportDir: 'target/karate-reports',
+          reportFiles: 'karate-summary.html',
+          reportName: 'Karate Test Report'
+        ])
+      }
+    }
+
     stage('Running automation test') {
       steps {
         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                   sh "mvn clean test -Dbrowser=${browser}"
+                   sh "mvn clean test -Dbrowser=Chrome"
                 }
       }
     }
