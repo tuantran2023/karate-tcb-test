@@ -17,13 +17,15 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
+        echo "==> Cloning repo..."
         git url: 'https://github.com/tuantran2023/karate-tcb-test.git', branch: 'main'
       }
     }
 
     stage('Run Karate Tests') {
       steps {
-        sh 'mvn clean test -Dbrowser=${browser}'
+        echo "==> run test..."
+        sh "mvn clean test -Dbrowser=${params.browser}"
       }
     }
   }
