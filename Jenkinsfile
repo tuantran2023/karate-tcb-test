@@ -15,28 +15,48 @@ pipeline {
   }
 
   stages {
-    stage('Verify Jenkinsfile is Running') {
+    stage('Checkout source code') {
       steps {
-        echo '✅ This Jenkinsfile is being executed!'
+        git(url: 'https://github.com/tuantran2023/karate-test.git',
+        branch: 'main',
+        credentialsId: '51e5cdea-8602-43ff-aa70-2e4b294e0931')
       }
     }
 
-    stage('Show browser param') {
+    stage('Build') { 
+            steps {
+                // 
+            }
+        }
+        stage('Test') { 
+            steps {
+                // 
+            }
+        }
+
+    stage('Running automation test') {
       steps {
-        echo "🧪 Browser param received: ${params.browser}"
+        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                   sh "mvn clean test -Dbrowser=Chrome"
+                }
       }
     }
 
-    stage('Run Dummy Command') {
-      steps {
-        sh 'echo Hello from Jenkins!'
-      }
-    }
   }
 
-  post {
-    always {
-      echo '📦 Post actions complete'
+  post{
+    always{
+      publishHTML([
+      allowMissing: false,
+      alwaysLinkToLastBuild: true,
+      keepAll: true,
+      reportDir: "target/site",
+      reportFiles: "surefire-report.html",
+      reportName: "TuanTest HTML Report",
+      reportTitles: "TuanTest HTML Report"
+      ])
+      archiveArtifacts artifacts: 'target/karate-report/*.html'
+      cleanWs()
     }
   }
 }
