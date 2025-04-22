@@ -26,26 +26,30 @@ pipeline {
     stage('Running automation test') {
       steps {
         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                   sh "mvn clean test -Dbrowser=Chrome"
+                   sh "mvn clean test -Dbrowser=${params.browser}"
                 }
       }
     }
 
   }
 
-  post{
-    always{
-      publishHTML([
+  post {
+  always {
+    junit 'target/surefire-reports/*.xml' // optional but gives test stats
+
+    publishHTML([
       allowMissing: false,
       alwaysLinkToLastBuild: true,
       keepAll: true,
-      reportDir: "target/site",
-      reportFiles: "surefire-report.html",
-      reportName: "TuanTest HTML Report",
-      reportTitles: "TuanTest HTML Report"
-      ])
-      archiveArtifacts artifacts: 'target/karate-report/*.html'
-      cleanWs()
-    }
+      reportDir: "target/karate-reports",
+      reportFiles: "karate-summary.html",
+      reportName: "Karate Test Report",
+      reportTitles: "Karate Test Report"
+    ])
+
+    archiveArtifacts artifacts: 'target/karate-reports/*.html'
+    cleanWs()
   }
+}
+
 }
