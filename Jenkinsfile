@@ -35,8 +35,6 @@ pipeline {
 
   post {
   always {
-    junit 'target/surefire-reports/*.xml' // optional but gives test stats
-
     publishHTML([
       allowMissing: false,
       alwaysLinkToLastBuild: true,
@@ -46,10 +44,10 @@ pipeline {
       reportName: "Karate Test Report",
       reportTitles: "Karate Test Report"
     ])
-
     archiveArtifacts artifacts: 'target/karate-reports/*.html'
     cleanWs()
   }
 }
+
 
 }
