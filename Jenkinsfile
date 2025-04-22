@@ -17,7 +17,7 @@ pipeline {
   stages {
     stage('Checkout source code') {
       steps {
-        git(url: 'https://github.com/tuantran2023/karate-test.git',
+        git(url: 'https://github.com/tuantran2023/karate-tcb-test.git',
         branch: 'main',
         credentialsId: '51e5cdea-8602-43ff-aa70-2e4b294e0931')
       }
