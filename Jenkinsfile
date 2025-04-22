@@ -23,17 +23,6 @@ pipeline {
       }
     }
 
-    stage('Build') { 
-            steps {
-                // 
-            }
-        }
-        stage('Test') { 
-            steps {
-                // 
-            }
-        }
-
     stage('Running automation test') {
       steps {
         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
