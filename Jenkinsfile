@@ -1,6 +1,10 @@
 pipeline {
   agent any
 
+  environment {
+    KARATE_ENV = 'ci'
+  }
+
   parameters {
     choice(
       name: 'browser',
