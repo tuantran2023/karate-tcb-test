@@ -30,7 +30,7 @@ pipeline {
     stage('Running automation test') {
       steps {
         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                   sh "mvn clean test -Dbrowser=${params.browser}"
+                   sh "mvn clean test -Dbrowser=${params.browser} -Dkarate.env=ci"
                 }
       }
     }
