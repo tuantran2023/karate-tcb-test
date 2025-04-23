@@ -9,10 +9,12 @@ function fn() {
     browser: browser
   };
 
+  const isCI = karate.env == 'ci';
+
   if (browser === 'chrome') {
     karate.configure('driver', {
     type: 'chrome',
-    headless: false,
+    headless: isCI,
     showDriverLog: true,
     timeout: 30000,
     addOptions: ['--incognito', '--start-maximized']
@@ -22,7 +24,7 @@ function fn() {
     type: 'geckodriver',
     executable: 'C:/geckodriver/geckodriver.exe',
     binary: 'C:/Program Files/Mozilla Firefox/firefox.exe',
-    headless: false,
+    headless: isCI,
     showDriverLog: true
   });
   }
