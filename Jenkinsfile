@@ -1,5 +1,5 @@
 pipeline {
-  agent any
+  agent { label 'local' }
 
   environment {
     KARATE_ENV = 'ci'
